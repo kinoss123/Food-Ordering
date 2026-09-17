@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Food Ordering - Track Order</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Food Ordering</h1>
+    <p>Track your order</p>
+  </header>
+
+  <nav>
+    <a href="Ordering_page.html">Order</a>
+    <a href="Order_tracking.html">Track Order</a>
+    <a href="Admin.html">Admin</a>
+  </nav>
+
+  <main>
+    <form id="trackForm">
+      <label for="orderId">Order Number (e.g. 3)</label>
+      <input type="number" id="orderId" required min="1">
+      <button type="submit">Track</button>
+    </form>
+
+    <div id="result"></div>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/tracking.js"></script>
+</body>
+</html>

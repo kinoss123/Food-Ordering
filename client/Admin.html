@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Food Ordering - Admin</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Food Ordering</h1>
+    <p>Admin Dashboard</p>
+  </header>
+
+  <nav>
+    <a href="Ordering_page.html">Order</a>
+    <a href="Order_tracking.html">Track Order</a>
+    <a href="Admin.html">Admin</a>
+  </nav>
+
+  <main>
+    <section>
+      <h2>Add New Dish</h2>
+      <form id="addMenuForm">
+        <label for="mName">Dish Name</label>
+        <input type="text" id="mName" required>
+
+        <label for="mDesc">Description</label>
+        <input type="text" id="mDesc">
+
+        <label for="mPrice">Price (VND)</label>
+        <input type="number" id="mPrice" required min="0">
+
+        <label for="mCategory">Category (e.g. main / side / drink)</label>
+        <input type="text" id="mCategory">
+
+        <button type="submit">Add Dish</button>
+        <div id="menuMessage"></div>
+      </form>
+    </section>
+
+    <section>
+      <h2>Menu List</h2>
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Name</th><th>Price</th><th>Category</th><th>Action</th></tr>
+        </thead>
+        <tbody id="menuTableBody"></tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Order List</h2>
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Customer</th><th>Total</th><th>Status</th><th>Action</th></tr>
+        </thead>
+        <tbody id="orderTableBody"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

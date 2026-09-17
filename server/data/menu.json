@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "name": "Phở gà",
+    "description": "Traditional Vietnamese noodle soup with chicken and herbs",
+    "price": 45000,
+    "category": "main",
+    "image": "",
+    "available": true
+  },
+  {
+    "id": 2,
+    "name": "Phở bò",
+    "description": "Traditional Vietnamese noodle soup with beef and herbs",
+    "price": 50000,
+    "category": "main",
+    "image": "",
+    "available": true
+  },
+  {
+    "id": 3,
+    "name": "Trà đá",
+    "description": "Vietnamese iced tea",
+    "price": 5000,
+    "category": "drink",
+    "image": "",
+    "available": true
+  },
+  {
+    "id": 4,
+    "name": "Sữa đậu nành",
+    "description": "Fresh soy milk",
+    "price": 10000,
+    "category": "drink",
+    "image": "",
+    "available": true
+  },
+  {
+    "id": 5,
+    "name": "Quẩy",
+    "description": "Vietnamese fried dough stick, usually eaten with phở",
+    "price": 10000,
+    "category": "side",
+    "image": "",
+    "available": true
+  }
+]
