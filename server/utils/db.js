@@ -4,6 +4,9 @@ const path = require("path");
 // Read and parse the full content of a JSON file inside data/
 function readData(fileName) {
   const filePath = path.join(__dirname, "..", "data", fileName);
+  if (!fs.existsSync(filePath)) {
+    fs.writeFileSync(filePath, "[]", "utf-8");
+  }
   const raw = fs.readFileSync(filePath, "utf-8");
   return JSON.parse(raw);
 }

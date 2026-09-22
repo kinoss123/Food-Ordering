@@ -69,4 +69,16 @@ router.put("/:id", (req, res) => {
   res.json(orders[index]);
 });
 
+router.delete("/:id", (req, res) => {
+  const orders = readData(FILE);
+  const filtered = orders.filter((o) => o.id !== Number(req.params.id));
+
+  if (filtered.length === orders.length) {
+    return res.status(404).json({ error: "Order not found" });
+  }
+
+  writeData(FILE, filtered);
+  res.json({ message: "Order deleted" });
+});
+
 module.exports = router;

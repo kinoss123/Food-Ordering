@@ -67,10 +67,14 @@ async function loadOrderTable() {
       <td><span class="status-${order.status}">${order.status}</span></td>
       <td>
         <select data-id="${order.id}">${select}</select>
+        <button data-delete-id="${order.id}">Delete</button>
       </td>
     `;
     tr.querySelector("select").addEventListener("change", (e) =>
       updateOrderStatus(order.id, e.target.value)
+    );
+    tr.querySelector("button[data-delete-id]").addEventListener("click", () =>
+      deleteOrder(order.id)
     );
     orderTableBody.append(tr);
   });
@@ -78,6 +82,12 @@ async function loadOrderTable() {
 
 async function updateOrderStatus(id, status) {
   await apiPut(`/orders/${id}`, { status });
+  loadOrderTable();
+}
+
+async function deleteOrder(id) {
+  if (!confirm("Delete this order?")) return;
+  await apiDelete(`/orders/${id}`);
   loadOrderTable();
 }
 
