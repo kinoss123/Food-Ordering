@@ -43,5 +43,32 @@
     "category": "side",
     "image": "",
     "available": true
+  },
+  {
+    "id": 6,
+    "name": "Phở gầu",
+    "description": "Traditional Vietnamese noodle soup with beef brisket and herbs",
+    "price": 55000,
+    "category": "main",
+    "image": "",
+    "available": true
+  },
+  {
+    "id": 7,
+    "name": "Phở nạm",
+    "description": "Traditional Vietnamese noodle soup with beef flank and herbs",
+    "price": 55000,
+    "category": "main",
+    "image": "",
+    "available": true
+  },
+  {
+    "id": 8,
+    "name": "Trứng trần",
+    "description": "Poached egg",
+    "price": 7000,
+    "category": "side",
+    "image": "",
+    "available": true
   }
 ]
