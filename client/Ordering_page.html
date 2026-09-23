@@ -2,49 +2,55 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Food Ordering</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ph&#7903; Vi&#7879;t — Order Online</title>
+  <link rel="stylesheet" href="css/ordering.css">
 </head>
-<body>
-  <header>
-    <h1>Food Ordering</h1>
-    <p>Order your favorite dishes online</p>
-  </header>
+<body class="ordering-page">
+  <div class="ordering-shell">
+    <header class="site-header">
+      <a class="wordmark" href="Ordering_page.html" aria-label="Ph&#7903; Vi&#7879;t ordering home">
+        <span class="wordmark-seal" aria-hidden="true"><svg class="wordmark-mark" viewBox="0 0 48 48" focusable="false"><path d="M11 27.5h26c-1.5 7-6.2 10.5-13 10.5S12.5 34.5 11 27.5Z"/><path d="M8 27.5h32"/><path d="M24 8c-3 3-3 5.5 0 8.5M31 11c-2 2.4-2 4.4 0 6.5M17 11c-2 2.4-2 4.4 0 6.5"/><path d="M17 40h14"/></svg></span>
+        <span class="wordmark-copy"><strong>Ph&#7903; Vi&#7879;t</strong><small>Hanoi pho kitchen</small></span>
+      </a>
+      <nav class="site-nav" aria-label="Primary navigation"><a class="is-current" href="Ordering_page.html" aria-current="page">Order</a><a href="Order_tracking.html">Track order</a><a href="Admin.html">Admin</a></nav>
+    </header>
 
-  <!-- Nav links point to the renamed pages -->
-  <nav>
-    <a href="Ordering_page.html">Order</a>
-    <a href="Order_tracking.html">Track Order</a>
-    <a href="Admin.html">Admin</a>
-  </nav>
+    <main>
+      <section class="hero" aria-labelledby="heroTitle">
+        <div class="hero-copy" id="heroCopy">
+          <p class="eyebrow" id="heroCategory">Today’s selection</p><p class="hero-kicker">A little Hanoi, at your table</p>
+          <h1 id="heroTitle">Discover the menu</h1><p class="hero-vietnamese" id="heroVietnamese"></p>
+          <p class="hero-description" id="heroDescription">Choose a dish to see its story.</p>
+          <div class="hero-ordering"><p class="hero-price" id="heroPrice">—</p><button class="button button-primary" type="button" id="heroAddButton" disabled>Add to order <span aria-hidden="true">↗</span></button></div>
+        </div>
 
-  <main>
-    <input type="text" id="searchBox" placeholder="Search for a dish...">
+        <div class="hero-visual category-other" id="heroVisual" aria-live="polite">
+          <div class="visual-aura" aria-hidden="true"></div><div class="visual-arch" aria-hidden="true"></div><div class="visual-leaf leaf-one" aria-hidden="true"></div><div class="visual-leaf leaf-two" aria-hidden="true"></div>
+          <div class="hero-image-frame"><img id="heroImage" class="hero-image" alt="" hidden></div><p class="visual-caption" id="visualCaption">Select a dish</p>
+        </div>
+      </section>
 
-    <section class="menu-grid" id="menuGrid">
-      <!-- Dish cards are injected here by JS -->
-    </section>
+      <section class="menu-navigation" aria-labelledby="menuHeading">
+        <div class="section-heading"><div><p class="eyebrow">A la carte</p><h2 id="menuHeading">Choose your dish</h2></div><label class="search-field" for="searchBox"><span class="sr-only">Search the menu</span><span aria-hidden="true">⌕</span><input type="search" id="searchBox" placeholder="Search the menu" autocomplete="off"></label></div>
+        <div class="menu-grid" id="menuGrid" role="list" aria-live="polite"><p class="menu-loading">Curating today’s menu…</p></div>
+      </section>
 
-    <section id="cart">
-      <h2>Your Cart</h2>
-      <ul id="cartList"></ul>
-      <p id="total">Total: 0 VND</p>
-    </section>
+      <section class="service-area" aria-label="Your order details">
+        <aside id="cart" class="order-panel" aria-labelledby="cartHeading"><div class="panel-heading"><div><p class="eyebrow">Your table</p><h2 id="cartHeading">Your order</h2></div><span class="cart-count" id="cartCount" aria-label="0 items">0</span></div><ul id="cartList" class="cart-list" aria-live="polite"></ul><p class="empty-cart" id="emptyCart">Your selections will appear here.</p><div class="cart-total"><span>Total</span><strong id="total">0 VND</strong></div></aside>
+        <form id="orderForm" class="order-panel order-form"><div class="panel-heading"><div><p class="eyebrow">Complete your order</p><h2>One last detail</h2></div></div><div class="field-row"><label for="customerName">Your name<input type="text" id="customerName" placeholder="How should we call you?" required autocomplete="name"></label><label for="tableNumber">Table number <span>(optional)</span><input type="text" id="tableNumber" placeholder="e.g. 12"></label></div><button class="button button-primary order-submit" type="submit">Place order <span aria-hidden="true">↗</span></button><div id="orderMessage" class="order-message" role="status" aria-live="polite"></div></form>
+      </section>
 
-    <form id="orderForm">
-      <h2>Order Details</h2>
-      <label for="customerName">Customer Name</label>
-      <input type="text" id="customerName" required>
-
-      <label for="tableNumber">Table Number (optional)</label>
-      <input type="text" id="tableNumber">
-
-      <button type="submit">Place Order</button>
-      <div id="orderMessage"></div>
-    </form>
-  </main>
-
-  <script src="js/api.js"></script>
-  <script src="js/app.js"></script>
+      <section class="diners-story" aria-labelledby="dinersHeading">
+        <div class="story-heading"><p class="eyebrow">The Ph&#7903; Vi&#7879;t table</p><h2 id="dinersHeading">Why Diners Choose <span class="heading-brand"><svg class="heading-brand-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M11 27.5h26c-1.5 7-6.2 10.5-13 10.5S12.5 34.5 11 27.5Z"/><path d="M8 27.5h32"/><path d="M24 8c-3 3-3 5.5 0 8.5M31 11c-2 2.4-2 4.4 0 6.5M17 11c-2 2.4-2 4.4 0 6.5"/><path d="M17 40h14"/></svg><span>Ph&#7903; Vi&#7879;t</span></span></h2><p>Familiar flavors, made with a little more care.</p></div>
+        <div class="marquee" tabindex="0" aria-label="Ten reasons diners choose Ph&#7903; Vi&#7879;t. Hover or focus to pause."><div class="marquee-track">
+          <ol class="reason-list"><li><b>01</b><h3>Authentic Vietnamese Flavors</h3><p>Traditional flavors, prepared with care.</p></li><li><b>02</b><h3>Fresh Ingredients</h3><p>Thoughtfully selected for every bowl.</p></li><li><b>03</b><h3>Made for Every Table</h3><p>Comforting dishes, easy to share.</p></li><li><b>04</b><h3>Carefully Prepared</h3><p>Balance and detail in every serving.</p></li><li><b>05</b><h3>Fast &amp; Convenient</h3><p>Simple ordering for a smoother meal.</p></li><li><b>06</b><h3>A Taste Worth Returning For</h3><p>Familiar comfort with a Ph&#7903; Vi&#7879;t touch.</p></li><li><b>07</b><h3>Rooted in Hanoi Tradition</h3><p>Inspired by the timeless character of Hanoi's streets and kitchens.</p></li><li><b>08</b><h3>Comfort in Every Bowl</h3><p>A familiar bowl made to feel warm, satisfying, and comforting.</p></li><li><b>09</b><h3>Warm &amp; Welcoming Hospitality</h3><p>A simple, welcoming experience that feels at home.</p></li><li><b>10</b><h3>Made for Every Time of Day</h3><p>From a morning bowl to an evening meal, pho belongs at every hour.</p></li></ol>
+          <ol class="reason-list" aria-hidden="true"><li><b>01</b><h3>Authentic Vietnamese Flavors</h3><p>Traditional flavors, prepared with care.</p></li><li><b>02</b><h3>Fresh Ingredients</h3><p>Thoughtfully selected for every bowl.</p></li><li><b>03</b><h3>Made for Every Table</h3><p>Comforting dishes, easy to share.</p></li><li><b>04</b><h3>Carefully Prepared</h3><p>Balance and detail in every serving.</p></li><li><b>05</b><h3>Fast &amp; Convenient</h3><p>Simple ordering for a smoother meal.</p></li><li><b>06</b><h3>A Taste Worth Returning For</h3><p>Familiar comfort with a Ph&#7903; Vi&#7879;t touch.</p></li><li><b>07</b><h3>Rooted in Hanoi Tradition</h3><p>Inspired by the timeless character of Hanoi's streets and kitchens.</p></li><li><b>08</b><h3>Comfort in Every Bowl</h3><p>A familiar bowl made to feel warm, satisfying, and comforting.</p></li><li><b>09</b><h3>Warm &amp; Welcoming Hospitality</h3><p>A simple, welcoming experience that feels at home.</p></li><li><b>10</b><h3>Made for Every Time of Day</h3><p>From a morning bowl to an evening meal, pho belongs at every hour.</p></li></ol>
+        </div></div>
+      </section>
+    </main>
+    <footer class="site-footer"><span class="footer-brand"><svg class="footer-brand-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M11 27.5h26c-1.5 7-6.2 10.5-13 10.5S12.5 34.5 11 27.5Z"/><path d="M8 27.5h32"/><path d="M24 8c-3 3-3 5.5 0 8.5M31 11c-2 2.4-2 4.4 0 6.5M17 11c-2 2.4-2 4.4 0 6.5"/><path d="M17 40h14"/></svg><strong>Ph&#7903; Vi&#7879;t</strong></span><span>A Hanoi Tradition, Served All Day.</span></footer>
+  </div>
+  <script src="js/api.js"></script><script src="js/app.js"></script>
 </body>
 </html>
