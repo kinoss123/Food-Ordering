@@ -9,14 +9,24 @@ const STATUS_ORDER = ["pending", "preparing", "delivering", "completed", "cancel
 const loginForm = document.getElementById("loginForm");
 const loginSection = document.getElementById("loginSection");
 const adminMain = document.getElementById("adminMain");
-const loginMessage = document.getElementById("loginMessage");
+const loginError = document.getElementById("loginError");
+const adminKeyInput = document.getElementById("adminKeyInput");
+const togglePassword = document.getElementById("togglePassword");
+
+// Eye icon: toggles the input between hidden dots and plain text
+togglePassword.addEventListener("click", () => {
+  const isHidden = adminKeyInput.type === "password";
+  adminKeyInput.type = isHidden ? "text" : "password";
+  togglePassword.textContent = isHidden ? "🙈" : "👁";
+});
 
 // If a key was already saved this browser tab session, skip login screen.
 if (sessionStorage.getItem("adminKey")) showDashboard();
 
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const key = document.getElementById("adminKeyInput").value;
+  loginError.textContent = "";
+  const key = adminKeyInput.value;
 
   const res = await fetch(`${API_BASE}/admin/login`, {
     method: "POST",
@@ -28,7 +38,7 @@ loginForm.addEventListener("submit", async (e) => {
     sessionStorage.setItem("adminKey", key);
     showDashboard();
   } else {
-    loginMessage.innerHTML = `<p class="message error">Sai admin key</p>`;
+    loginError.textContent = "Wrong key";
   }
 });
 

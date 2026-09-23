@@ -137,3 +137,31 @@ tr:hover { background: #fff3cd; }
 .message { padding: 10px; border-radius: 4px; margin-top: 10px; }
 .message.success { background: #d4edda; color: #155724; }
 .message.error { background: #f8d7da; color: #721c24; }
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  flex: 1;
+  padding-right: 40px; /* leave room for the eye button */
+}
+
+#togglePassword {
+  position: absolute;
+  right: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1em;
+  padding: 4px;
+}
+
+.field-error {
+  color: #b00000;
+  font-size: 0.9em;
+  margin-top: 4px;
+  min-height: 1.2em; /* reserves space so layout doesn't jump when text appears */
+}

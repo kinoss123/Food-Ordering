@@ -20,9 +20,13 @@
     <h2>Admin Login</h2>
     <form id="loginForm">
       <label for="adminKeyInput">Admin Key</label>
-      <input type="password" id="adminKeyInput" required>
+      <div class="password-wrapper">
+        <input type="password" id="adminKeyInput" required>
+        <button type="button" id="togglePassword">👁</button>
+      </div>
+      <div id="loginError" class="field-error"></div>
+
       <button type="submit">Login</button>
-      <div id="loginMessage"></div>
     </form>
   </section>
 
