@@ -165,3 +165,6 @@ tr:hover { background: #fff3cd; }
   margin-top: 4px;
   min-height: 1.2em; /* reserves space so layout doesn't jump when text appears */
 }
+
+.payment-paid { color: #2e8b57; font-weight: bold; }
+.payment-unpaid { color: #b00000; font-weight: bold; }

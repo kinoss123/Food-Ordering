@@ -104,19 +104,33 @@ async function loadOrderTable() {
       .map((s) => `<option value="${s}" ${s === order.status ? "selected" : ""}>${s}</option>`)
       .join("");
 
+    // Old orders created before this feature won't have paymentStatus saved,
+    // so default to "unpaid" instead of showing "undefined".
+    const paymentStatus = order.paymentStatus || "unpaid";
+    const isPaid = paymentStatus === "paid";
+
     tr.innerHTML = `
       <td>${order.id}</td>
       <td>${order.customerName}</td>
       <td>${order.total.toLocaleString()} VND</td>
       <td><span class="status-${order.status}">${order.status}</span></td>
+      <td><span class="payment-${paymentStatus}">${isPaid ? "Paid" : "Unpaid"}</span></td>
       <td>
         <select data-id="${order.id}">${select}</select>
+        <button data-toggle-payment-id="${order.id}" data-current="${paymentStatus}">
+          ${isPaid ? "Mark Unpaid" : "Mark Paid"}
+        </button>
         <button data-delete-id="${order.id}">Delete</button>
       </td>
     `;
     tr.querySelector("select").addEventListener("change", (e) =>
       updateOrderStatus(order.id, e.target.value)
     );
+    tr.querySelector("button[data-toggle-payment-id]").addEventListener("click", (e) => {
+      const current = e.target.dataset.current;
+      const next = current === "paid" ? "unpaid" : "paid";
+      togglePayment(order.id, next);
+    });
     tr.querySelector("button[data-delete-id]").addEventListener("click", () =>
       deleteOrder(order.id)
     );

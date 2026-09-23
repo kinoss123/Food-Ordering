@@ -27,12 +27,19 @@ function renderOrder(order) {
     .map((i) => `<li>${i.name} x${i.quantity} - ${(i.price * i.quantity).toLocaleString()} VND</li>`)
     .join("");
 
+  // Older orders created before payment tracking was added won't have
+  // paymentStatus saved, so default to "unpaid" instead of showing
+  // "undefined".
+  const paymentStatus = order.paymentStatus || "unpaid";
+  const isPaid = paymentStatus === "paid";
+
   resultBox.innerHTML = `
     <div id="cart">
       <h2>Order #${order.id}</h2>
       <p>Customer: ${order.customerName}</p>
       <p>Table: ${order.tableNumber || "N/A"}</p>
       <p>Status: <span class="status-${order.status}">${STATUS_LABELS[order.status]}</span></p>
+      <p>Payment: <span class="payment-${paymentStatus}">${isPaid ? "Paid" : "Unpaid"}</span></p>
       <ul>${itemsHtml}</ul>
       <p id="total">Total: ${order.total.toLocaleString()} VND</p>
     </div>
