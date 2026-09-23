@@ -14,10 +14,19 @@
   <nav>
     <a href="Ordering_page.html">Order</a>
     <a href="Order_tracking.html">Track Order</a>
-    <a href="Admin.html">Admin</a>
   </nav>
 
-  <main>
+  <section id="loginSection">
+    <h2>Admin Login</h2>
+    <form id="loginForm">
+      <label for="adminKeyInput">Admin Key</label>
+      <input type="password" id="adminKeyInput" required>
+      <button type="submit">Login</button>
+      <div id="loginMessage"></div>
+    </form>
+  </section>
+
+  <main id="adminMain" style="display:none">
     <section>
       <h2>Add New Dish</h2>
       <form id="addMenuForm">

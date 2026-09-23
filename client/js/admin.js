@@ -5,6 +5,40 @@ const orderTableBody = document.getElementById("orderTableBody");
 
 const STATUS_ORDER = ["pending", "preparing", "delivering", "completed", "cancelled"];
 
+// ---- Login gate ----
+const loginForm = document.getElementById("loginForm");
+const loginSection = document.getElementById("loginSection");
+const adminMain = document.getElementById("adminMain");
+const loginMessage = document.getElementById("loginMessage");
+
+// If a key was already saved this browser tab session, skip login screen.
+if (sessionStorage.getItem("adminKey")) showDashboard();
+
+loginForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const key = document.getElementById("adminKeyInput").value;
+
+  const res = await fetch(`${API_BASE}/admin/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ key }),
+  });
+
+  if (res.ok) {
+    sessionStorage.setItem("adminKey", key);
+    showDashboard();
+  } else {
+    loginMessage.innerHTML = `<p class="message error">Sai admin key</p>`;
+  }
+});
+
+function showDashboard() {
+  loginSection.style.display = "none";
+  adminMain.style.display = "block";
+  loadMenuTable();
+  loadOrderTable();
+}
+
 // ---- Menu: display ----
 async function loadMenuTable() {
   const menu = await apiGet("/menu");
@@ -90,6 +124,3 @@ async function deleteOrder(id) {
   await apiDelete(`/orders/${id}`);
   loadOrderTable();
 }
-
-loadMenuTable();
-loadOrderTable();
