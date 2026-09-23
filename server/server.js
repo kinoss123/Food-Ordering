@@ -4,6 +4,7 @@ const path = require("path");
 
 const menuRoutes = require("./routes/menu");
 const orderRoutes = require("./routes/orders");
+const { ADMIN_KEY } = require("./middleware/adminAuth");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,6 +15,12 @@ app.use(cors());
 // express.json() parses incoming JSON request bodies into req.body,
 // so routes can read things like req.body.name directly.
 app.use(express.json());
+
+app.post("/api/admin/login", (req, res) => {
+  const { key } = req.body;
+  if (key === ADMIN_KEY) return res.json({ ok: true });
+  res.status(401).json({ error: "Sai admin key" });
+});
 
 // Expose the API: /api/menu and /api/orders
 app.use("/api/menu", menuRoutes);

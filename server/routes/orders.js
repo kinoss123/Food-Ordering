@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const { readData, writeData, nextId } = require("../utils/db");
+const { requireAdmin } = require("../middleware/adminAuth");
 
 const FILE = "orders.json";
 const VALID_STATUSES = ["pending", "preparing", "delivering", "completed", "cancelled"];
 
 // GET /api/orders - (admin) view all orders
-router.get("/", (req, res) => {
+router.get("/", requireAdmin, (req, res) => {
   const orders = readData(FILE);
   res.json(orders);
 });
@@ -48,7 +49,7 @@ router.post("/", (req, res) => {
 
 // PUT /api/orders/:id - (admin) update order status
 // body: { status: "preparing" }
-router.put("/:id", (req, res) => {
+router.put("/:id", requireAdmin, (req, res) => {
   const { status } = req.body;
 
   if (!VALID_STATUSES.includes(status)) {
@@ -69,7 +70,7 @@ router.put("/:id", (req, res) => {
   res.json(orders[index]);
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", requireAdmin, (req, res) => {
   const orders = readData(FILE);
   const filtered = orders.filter((o) => o.id !== Number(req.params.id));
 
