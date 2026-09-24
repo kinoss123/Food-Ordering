@@ -3,54 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ph&#7903; Vi&#7879;t — Order Online</title>
-  <link rel="stylesheet" href="css/ordering.css">
+  <title>Phở Việt — Order online</title>
+  <link rel="stylesheet" href="css/ordering.css"><link rel="stylesheet" href="css/shared-navigation.css">
 </head>
 <body class="ordering-page">
-  <div class="ordering-shell">
-    <header class="site-header">
-      <a class="wordmark" href="Ordering_page.html" aria-label="Ph&#7903; Vi&#7879;t ordering home">
-        <span class="wordmark-seal" aria-hidden="true"><svg class="wordmark-mark" viewBox="0 0 48 48" focusable="false"><path d="M11 27.5h26c-1.5 7-6.2 10.5-13 10.5S12.5 34.5 11 27.5Z"/><path d="M8 27.5h32"/><path d="M24 8c-3 3-3 5.5 0 8.5M31 11c-2 2.4-2 4.4 0 6.5M17 11c-2 2.4-2 4.4 0 6.5"/><path d="M17 40h14"/></svg></span>
-        <span class="wordmark-copy"><strong>Ph&#7903; Vi&#7879;t</strong><small>Hanoi pho kitchen</small></span>
-      </a>
-      <nav class="site-nav" aria-label="Primary navigation"><a class="is-current" href="Ordering_page.html" aria-current="page">Order</a><a href="Order_tracking.html">Track order</a><a href="Admin.html">Admin</a></nav>
-    </header>
-
-    <main>
-      <section class="hero" aria-labelledby="heroTitle">
-        <div class="hero-copy" id="heroCopy">
-          <p class="eyebrow" id="heroCategory">Today’s selection</p><p class="hero-kicker">A little Hanoi, at your table</p>
-          <h1 id="heroTitle">Discover the menu</h1><p class="hero-vietnamese" id="heroVietnamese"></p>
-          <p class="hero-description" id="heroDescription">Choose a dish to see its story.</p>
-          <div class="hero-ordering"><p class="hero-price" id="heroPrice">—</p><button class="button button-primary" type="button" id="heroAddButton" disabled>Add to order <span aria-hidden="true">↗</span></button></div>
-        </div>
-
-        <div class="hero-visual category-other" id="heroVisual" aria-live="polite">
-          <div class="visual-aura" aria-hidden="true"></div><div class="visual-arch" aria-hidden="true"></div><div class="visual-leaf leaf-one" aria-hidden="true"></div><div class="visual-leaf leaf-two" aria-hidden="true"></div>
-          <div class="hero-image-frame"><img id="heroImage" class="hero-image" alt="" hidden></div><p class="visual-caption" id="visualCaption">Select a dish</p>
-        </div>
-      </section>
-
-      <section class="menu-navigation" aria-labelledby="menuHeading">
-        <div class="section-heading"><div><p class="eyebrow">A la carte</p><h2 id="menuHeading">Choose your dish</h2></div><label class="search-field" for="searchBox"><span class="sr-only">Search the menu</span><span aria-hidden="true">⌕</span><input type="search" id="searchBox" placeholder="Search the menu" autocomplete="off"></label></div>
-        <div class="menu-grid" id="menuGrid" role="list" aria-live="polite"><p class="menu-loading">Curating today’s menu…</p></div>
-      </section>
-
-      <section class="service-area" aria-label="Your order details">
-        <aside id="cart" class="order-panel" aria-labelledby="cartHeading"><div class="panel-heading"><div><p class="eyebrow">Your table</p><h2 id="cartHeading">Your order</h2></div><span class="cart-count" id="cartCount" aria-label="0 items">0</span></div><ul id="cartList" class="cart-list" aria-live="polite"></ul><p class="empty-cart" id="emptyCart">Your selections will appear here.</p><div class="cart-total"><span>Total</span><strong id="total">0 VND</strong></div></aside>
-        <form id="orderForm" class="order-panel order-form"><div class="panel-heading"><div><p class="eyebrow">Complete your order</p><h2>One last detail</h2></div></div><div class="field-row"><label for="customerName">Your name<input type="text" id="customerName" placeholder="How should we call you?" required autocomplete="name"></label><label for="tableNumber">Table number <span>(optional)</span><input type="text" id="tableNumber" placeholder="e.g. 12"></label></div><button class="button button-primary order-submit" type="submit">Place order <span aria-hidden="true">↗</span></button><div id="orderMessage" class="order-message" role="status" aria-live="polite"></div></form>
-      </section>
-
-      <section class="diners-story" aria-labelledby="dinersHeading">
-        <div class="story-heading"><p class="eyebrow">The Ph&#7903; Vi&#7879;t table</p><h2 id="dinersHeading">Why Diners Choose <span class="heading-brand"><svg class="heading-brand-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M11 27.5h26c-1.5 7-6.2 10.5-13 10.5S12.5 34.5 11 27.5Z"/><path d="M8 27.5h32"/><path d="M24 8c-3 3-3 5.5 0 8.5M31 11c-2 2.4-2 4.4 0 6.5M17 11c-2 2.4-2 4.4 0 6.5"/><path d="M17 40h14"/></svg><span>Ph&#7903; Vi&#7879;t</span></span></h2><p>Familiar flavors, made with a little more care.</p></div>
-        <div class="marquee" tabindex="0" aria-label="Ten reasons diners choose Ph&#7903; Vi&#7879;t. Hover or focus to pause."><div class="marquee-track">
-          <ol class="reason-list"><li><b>01</b><h3>Authentic Vietnamese Flavors</h3><p>Traditional flavors, prepared with care.</p></li><li><b>02</b><h3>Fresh Ingredients</h3><p>Thoughtfully selected for every bowl.</p></li><li><b>03</b><h3>Made for Every Table</h3><p>Comforting dishes, easy to share.</p></li><li><b>04</b><h3>Carefully Prepared</h3><p>Balance and detail in every serving.</p></li><li><b>05</b><h3>Fast &amp; Convenient</h3><p>Simple ordering for a smoother meal.</p></li><li><b>06</b><h3>A Taste Worth Returning For</h3><p>Familiar comfort with a Ph&#7903; Vi&#7879;t touch.</p></li><li><b>07</b><h3>Rooted in Hanoi Tradition</h3><p>Inspired by the timeless character of Hanoi's streets and kitchens.</p></li><li><b>08</b><h3>Comfort in Every Bowl</h3><p>A familiar bowl made to feel warm, satisfying, and comforting.</p></li><li><b>09</b><h3>Warm &amp; Welcoming Hospitality</h3><p>A simple, welcoming experience that feels at home.</p></li><li><b>10</b><h3>Made for Every Time of Day</h3><p>From a morning bowl to an evening meal, pho belongs at every hour.</p></li></ol>
-          <ol class="reason-list" aria-hidden="true"><li><b>01</b><h3>Authentic Vietnamese Flavors</h3><p>Traditional flavors, prepared with care.</p></li><li><b>02</b><h3>Fresh Ingredients</h3><p>Thoughtfully selected for every bowl.</p></li><li><b>03</b><h3>Made for Every Table</h3><p>Comforting dishes, easy to share.</p></li><li><b>04</b><h3>Carefully Prepared</h3><p>Balance and detail in every serving.</p></li><li><b>05</b><h3>Fast &amp; Convenient</h3><p>Simple ordering for a smoother meal.</p></li><li><b>06</b><h3>A Taste Worth Returning For</h3><p>Familiar comfort with a Ph&#7903; Vi&#7879;t touch.</p></li><li><b>07</b><h3>Rooted in Hanoi Tradition</h3><p>Inspired by the timeless character of Hanoi's streets and kitchens.</p></li><li><b>08</b><h3>Comfort in Every Bowl</h3><p>A familiar bowl made to feel warm, satisfying, and comforting.</p></li><li><b>09</b><h3>Warm &amp; Welcoming Hospitality</h3><p>A simple, welcoming experience that feels at home.</p></li><li><b>10</b><h3>Made for Every Time of Day</h3><p>From a morning bowl to an evening meal, pho belongs at every hour.</p></li></ol>
-        </div></div>
-      </section>
-    </main>
-    <footer class="site-footer"><span class="footer-brand"><svg class="footer-brand-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M11 27.5h26c-1.5 7-6.2 10.5-13 10.5S12.5 34.5 11 27.5Z"/><path d="M8 27.5h32"/><path d="M24 8c-3 3-3 5.5 0 8.5M31 11c-2 2.4-2 4.4 0 6.5M17 11c-2 2.4-2 4.4 0 6.5"/><path d="M17 40h14"/></svg><strong>Ph&#7903; Vi&#7879;t</strong></span><span>A Hanoi Tradition, Served All Day.</span></footer>
-  </div>
+  <header class="site-header"><nav class="site-nav" aria-label="Primary navigation"><a class="wordmark" href="Home.html" aria-label="Phở Việt home"><svg class="wordmark-mark pho-mark" viewBox="0 0 64 64" aria-hidden="true"><path d="M22 30c-5-6 1-10 2-16s-2-8 0-12M32 30c-4-6 2-11 2-17s-3-7 0-11M42 30c4-6-2-10-1-16s3-7 0-11"/><path d="M12 38c7-4 33-4 40 0M15 40c2 10 8 17 17 18h1c9-1 15-8 17-18M20 38c3-2 5 2 8 0s5-2 8 0 5-2 8 0M24 61h16"/></svg><span><strong>Phở Việt</strong><small>Hanoi pho kitchen</small></span></a><a href="Home.html">Home</a><a class="is-current" href="Ordering_page.html" aria-current="page">Order</a><a href="Order_tracking.html">Track order</a><a href="Admin.html">Admin</a></nav></header>
+  <main>
+    <section class="order-intro" aria-labelledby="orderTitle">
+      <p class="eyebrow">Phở Việt · Hanoi pho kitchen</p>
+      <div><h1 id="orderTitle">Discover our<br>delicious offerings.</h1><p>From comforting bowls of pho to Vietnamese sides and refreshing drinks, made for your table.</p></div>
+      <button class="cart-trigger" id="cartToggle" type="button" aria-controls="cartDrawer" aria-expanded="false">Your order <span id="cartCount">0</span></button>
+    </section>
+    <section class="menu-section" aria-labelledby="menuTitle">
+      <div class="menu-tools"><div><p class="eyebrow">Order at your pace</p><h2 id="menuTitle">Find your bowl</h2></div><label class="search-field" for="searchBox"><span class="sr-only">Search dishes</span><span aria-hidden="true">⌕</span><input type="search" id="searchBox" placeholder="Search dishes…" autocomplete="off"></label></div>
+      <div class="category-tabs" role="group" aria-label="Filter dishes by category"><button class="category-tab is-active" type="button" data-category="">All</button><button class="category-tab" type="button" data-category="main">Main dishes</button><button class="category-tab" type="button" data-category="side">Sides</button><button class="category-tab" type="button" data-category="side">Accompaniments</button><button class="category-tab" type="button" data-category="drink">Drinks</button></div>
+      <div class="food-grid" id="menuGrid" aria-live="polite"><p class="menu-status">Preparing the menu…</p></div>
+    </section>
+  </main>
+  <div class="cart-backdrop" id="cartBackdrop" hidden></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-labelledby="cartTitle" aria-hidden="true">
+    <div class="cart-drawer-head"><div><p class="eyebrow">Your selections</p><h2 id="cartTitle">Your order</h2></div><button class="icon-button" id="cartClose" type="button" aria-label="Close your order">×</button></div>
+    <ul class="cart-list" id="cartList" aria-live="polite"></ul><p class="empty-cart" id="emptyCart">Your chosen dishes will appear here.</p><div class="cart-total"><span>Total</span><strong id="total">0 VND</strong></div>
+    <form id="orderForm" class="checkout-form"><h3>Complete your order</h3><label for="customerName">Your name<input type="text" id="customerName" placeholder="How should we call you?" required autocomplete="name"></label><label for="tableNumber">Table number <span>Optional</span><input type="text" id="tableNumber" placeholder="e.g. 12"></label><button class="primary-button" type="submit">Place order <span aria-hidden="true">→</span></button><div id="orderMessage" class="order-message" role="status" aria-live="polite"></div></form>
+  </aside>
+  <footer class="site-footer"><span><svg class="footer-pho-mark pho-mark" viewBox="0 0 64 64" aria-hidden="true"><path d="M22 30c-5-6 1-10 2-16s-2-8 0-12M32 30c-4-6 2-11 2-17s-3-7 0-11M42 30c4-6-2-10-1-16s3-7 0-11"/><path d="M12 38c7-4 33-4 40 0M15 40c2 10 8 17 17 18h1c9-1 15-8 17-18M20 38c3-2 5 2 8 0s5-2 8 0 5-2 8 0M24 61h16"/></svg><strong>Phở Việt</strong> · Hanoi pho kitchen</span><span>A Hanoi Tradition, Served All Day.</span></footer>
   <script src="js/api.js"></script><script src="js/app.js"></script>
 </body>
 </html>
