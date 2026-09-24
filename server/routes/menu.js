@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { readData, writeData, nextId } = require("../utils/db");
+const { requireAdmin } = require("../middleware/adminAuth");
 
 const FILE = "menu.json";
 
@@ -30,7 +31,7 @@ router.get("/:id", (req, res) => {
 });
 
 // POST /api/menu - (admin) add a new dish
-router.post("/", (req, res) => {
+router.post("/", requireAdmin, (req, res) => {
   const { name, description, price, category, image } = req.body;
 
   if (!name || !price) {
@@ -54,7 +55,7 @@ router.post("/", (req, res) => {
 });
 
 // PUT /api/menu/:id - (admin) update a dish
-router.put("/:id", (req, res) => {
+router.put("/:id", requireAdmin, (req, res) => {
   const menu = readData(FILE);
   const index = menu.findIndex((m) => m.id === Number(req.params.id));
 
@@ -72,7 +73,7 @@ router.put("/:id", (req, res) => {
 });
 
 // DELETE /api/menu/:id - (admin) remove a dish
-router.delete("/:id", (req, res) => {
+router.delete("/:id", requireAdmin, (req, res) => {
   const menu = readData(FILE);
   const filtered = menu.filter((m) => m.id !== Number(req.params.id));
 

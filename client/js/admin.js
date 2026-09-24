@@ -5,6 +5,50 @@ const orderTableBody = document.getElementById("orderTableBody");
 
 const STATUS_ORDER = ["pending", "preparing", "delivering", "completed", "cancelled"];
 
+// ---- Login gate ----
+const loginForm = document.getElementById("loginForm");
+const loginSection = document.getElementById("loginSection");
+const adminMain = document.getElementById("adminMain");
+const loginError = document.getElementById("loginError");
+const adminKeyInput = document.getElementById("adminKeyInput");
+const togglePassword = document.getElementById("togglePassword");
+
+// Eye icon: toggles the input between hidden dots and plain text
+togglePassword.addEventListener("click", () => {
+  const isHidden = adminKeyInput.type === "password";
+  adminKeyInput.type = isHidden ? "text" : "password";
+  togglePassword.textContent = isHidden ? "🙈" : "👁";
+});
+
+// If a key was already saved this browser tab session, skip login screen.
+if (sessionStorage.getItem("adminKey")) showDashboard();
+
+loginForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  loginError.textContent = "";
+  const key = adminKeyInput.value;
+
+  const res = await fetch(`${API_BASE}/admin/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ key }),
+  });
+
+  if (res.ok) {
+    sessionStorage.setItem("adminKey", key);
+    showDashboard();
+  } else {
+    loginError.textContent = "Wrong key";
+  }
+});
+
+function showDashboard() {
+  loginSection.style.display = "none";
+  adminMain.style.display = "block";
+  loadMenuTable();
+  loadOrderTable();
+}
+
 // ---- Menu: display ----
 async function loadMenuTable() {
   const menu = await apiGet("/menu");
@@ -60,19 +104,33 @@ async function loadOrderTable() {
       .map((s) => `<option value="${s}" ${s === order.status ? "selected" : ""}>${s}</option>`)
       .join("");
 
+    // Old orders created before this feature won't have paymentStatus saved,
+    // so default to "unpaid" instead of showing "undefined".
+    const paymentStatus = order.paymentStatus || "unpaid";
+    const isPaid = paymentStatus === "paid";
+
     tr.innerHTML = `
       <td>${order.id}</td>
       <td>${order.customerName}</td>
       <td>${order.total.toLocaleString()} VND</td>
       <td><span class="status-${order.status}">${order.status}</span></td>
+      <td><span class="payment-${paymentStatus}">${isPaid ? "Paid" : "Unpaid"}</span></td>
       <td>
         <select data-id="${order.id}">${select}</select>
+        <button data-toggle-payment-id="${order.id}" data-current="${paymentStatus}">
+          ${isPaid ? "Mark Unpaid" : "Mark Paid"}
+        </button>
         <button data-delete-id="${order.id}">Delete</button>
       </td>
     `;
     tr.querySelector("select").addEventListener("change", (e) =>
       updateOrderStatus(order.id, e.target.value)
     );
+    tr.querySelector("button[data-toggle-payment-id]").addEventListener("click", (e) => {
+      const current = e.target.dataset.current;
+      const next = current === "paid" ? "unpaid" : "paid";
+      togglePayment(order.id, next);
+    });
     tr.querySelector("button[data-delete-id]").addEventListener("click", () =>
       deleteOrder(order.id)
     );
@@ -90,6 +148,3 @@ async function deleteOrder(id) {
   await apiDelete(`/orders/${id}`);
   loadOrderTable();
 }
-
-loadMenuTable();
-loadOrderTable();

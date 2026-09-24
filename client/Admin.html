@@ -19,7 +19,21 @@
     <a class="is-current" href="Admin.html" aria-current="page">Admin</a>
   </nav>
 
-  <main>
+  <section id="loginSection">
+    <h2>Admin Login</h2>
+    <form id="loginForm">
+      <label for="adminKeyInput">Admin Key</label>
+      <div class="password-wrapper">
+        <input type="password" id="adminKeyInput" required>
+        <button type="button" id="togglePassword">👁</button>
+      </div>
+      <div id="loginError" class="field-error"></div>
+
+      <button type="submit">Login</button>
+    </form>
+  </section>
+
+  <main id="adminMain" style="display:none">
     <section>
       <h2>Add New Dish</h2>
       <form id="addMenuForm">
@@ -54,7 +68,7 @@
       <h2>Order List</h2>
       <table>
         <thead>
-          <tr><th>ID</th><th>Customer</th><th>Total</th><th>Status</th><th>Action</th></tr>
+          <tr><th>ID</th><th>Customer</th><th>Total</th><th>Status</th><th>Payment</th><th>Action</th></tr>
         </thead>
         <tbody id="orderTableBody"></tbody>
       </table>
