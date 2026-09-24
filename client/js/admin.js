@@ -143,6 +143,16 @@ async function updateOrderStatus(id, status) {
   loadOrderTable();
 }
 
+async function togglePayment(id, paymentStatus) {
+  try {
+    await apiPut(`/orders/${id}/payment`, { paymentStatus });
+    loadOrderTable();
+  } catch (err) {
+    alert(`Không đổi được trạng thái thanh toán: ${err.message}`);
+    console.error(err);
+  }
+}
+
 async function deleteOrder(id) {
   if (!confirm("Delete this order?")) return;
   await apiDelete(`/orders/${id}`);
