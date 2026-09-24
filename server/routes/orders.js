@@ -6,6 +6,7 @@ const { requireAdmin } = require("../middleware/adminAuth");
 const FILE = "orders.json";
 const VALID_STATUSES = ["pending", "preparing", "delivering", "completed", "cancelled"];
 const VALID_PAYMENT_STATUSES = ["unpaid", "paid"];
+const ESTIMATED_DELIVERY_MINUTES = { min: 25, max: 35 };
 
 // GET /api/orders - (admin) view all orders
 router.get("/", requireAdmin, (req, res) => {
@@ -33,6 +34,7 @@ router.post("/", (req, res) => {
   const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
   const orders = readData(FILE);
+  const createdAt = new Date();
   const newOrder = {
     id: nextId(orders),
     customerName,
@@ -41,7 +43,15 @@ router.post("/", (req, res) => {
     total,
     status: "pending",
     paymentStatus: "unpaid", // every new order starts unpaid until admin marks it
-    createdAt: new Date().toISOString(),
+    createdAt: createdAt.toISOString(),
+    statusUpdatedAt: createdAt.toISOString(),
+    statusHistory: [{ status: "pending", at: createdAt.toISOString() }],
+    estimatedDeliveryStartAt: new Date(
+      createdAt.getTime() + ESTIMATED_DELIVERY_MINUTES.min * 60 * 1000
+    ).toISOString(),
+    estimatedDeliveryEndAt: new Date(
+      createdAt.getTime() + ESTIMATED_DELIVERY_MINUTES.max * 60 * 1000
+    ).toISOString(),
   };
 
   orders.push(newOrder);
@@ -67,7 +77,20 @@ router.put("/:id", requireAdmin, (req, res) => {
     return res.status(404).json({ error: "Order not found" });
   }
 
+  const updatedAt = new Date().toISOString();
+  const history = Array.isArray(orders[index].statusHistory)
+    ? orders[index].statusHistory
+    : orders[index].createdAt
+    ? [{ status: orders[index].status || "pending", at: orders[index].createdAt }]
+    : [];
+
+  if (orders[index].status !== status) {
+    history.push({ status, at: updatedAt });
+  }
+
   orders[index].status = status;
+  orders[index].statusUpdatedAt = updatedAt;
+  orders[index].statusHistory = history;
   writeData(FILE, orders);
   res.json(orders[index]);
 });
