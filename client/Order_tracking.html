@@ -2,15 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Food Ordering - Track Order</title>
-  <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/shared-navigation.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phở Việt - Track Order</title>
+  <link rel="stylesheet" href="css/ordering.css">
+  <link rel="stylesheet" href="css/shared-navigation.css">
+  <link rel="stylesheet" href="css/order-tracking.css">
 </head>
 <body>
-  <header>
-    <h1>Food Ordering</h1>
-    <p>Track your order</p>
-  </header>
-
   <nav class="shared-nav" aria-label="Primary navigation">
     <a class="nav-brand" href="Home.html"><svg class="nav-pho-mark" viewBox="0 0 64 64" aria-hidden="true"><path d="M22 30c-5-6 1-10 2-16s-2-8 0-12M32 30c-4-6 2-11 2-17s-3-7 0-11M42 30c4-6-2-10-1-16s3-7 0-11"/><path d="M12 38c7-4 33-4 40 0M15 40c2 10 8 17 17 18h1c9-1 15-8 17-18M20 38c3-2 5 2 8 0s5-2 8 0 5-2 8 0M24 61h16"/></svg><span>Phở Việt</span></a>
     <a href="Home.html">Home</a>
@@ -18,15 +16,88 @@
     <a class="is-current" href="Order_tracking.html" aria-current="page">Track Order</a>
   </nav>
 
-  <main>
-    <form id="trackForm">
-      <label for="orderId">Order Number (e.g. 3)</label>
-      <input type="number" id="orderId" required min="1">
-      <button type="submit">Track</button>
-    </form>
+  <main class="tracking-main">
+    <section class="tracking-hero" aria-labelledby="trackingTitle">
+      <p class="eyebrow">Order tracking</p>
+      <div>
+        <h1 id="trackingTitle">Track your order</h1>
+        <p>Enter your order number to see its latest restaurant status.</p>
+      </div>
 
-    <div id="result"></div>
+      <form id="trackForm" class="tracking-form" novalidate>
+        <label for="orderId">Order Number</label>
+        <div class="tracking-search-row">
+          <input type="text" id="orderId" inputmode="numeric" autocomplete="off" placeholder="eg.1,2,3..." aria-describedby="trackMessage">
+          <button id="trackButton" class="primary-button" type="submit">Track Order</button>
+        </div>
+        <div id="trackMessage" class="tracking-message" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <section id="trackingResult" class="tracking-result" aria-live="polite" hidden>
+      <div class="tracking-grid">
+        <article id="summaryCard" class="tracking-card order-summary"></article>
+        <article id="statusCard" class="tracking-card status-card"></article>
+      </div>
+
+      <section class="tracking-card progress-card" aria-labelledby="progressTitle">
+        <div class="section-heading">
+          <p class="eyebrow">Order progress</p>
+          <h2 id="progressTitle">Kitchen to table</h2>
+        </div>
+        <ol id="timeline" class="timeline"></ol>
+      </section>
+
+      <section class="tracking-card" aria-labelledby="itemsTitle">
+        <div class="section-heading">
+          <p class="eyebrow">Your order</p>
+          <h2 id="itemsTitle">Dishes</h2>
+        </div>
+        <div id="orderItems" class="tracked-items"></div>
+      </section>
+
+      <section id="deliverySection" class="tracking-card delivery-card" aria-labelledby="deliveryTitle" hidden>
+        <div class="section-heading">
+          <p class="eyebrow">Delivery details</p>
+          <h2 id="deliveryTitle">Customer information</h2>
+        </div>
+        <dl id="deliveryDetails" class="details-list"></dl>
+      </section>
+
+      <section class="support-section" aria-labelledby="supportTitle">
+        <div>
+          <p class="eyebrow">Order taking too long?</p>
+          <h2 id="supportTitle">We are here to help</h2>
+          <p id="supportCopy">If your order is taking longer than expected, contact our restaurant for assistance.</p>
+        </div>
+        <button id="supportOpen" class="primary-button support-open" type="button">Chat with Support</button>
+      </section>
+    </section>
   </main>
+
+  <aside id="supportPanel" class="support-panel" aria-labelledby="supportPanelTitle" aria-hidden="true" hidden>
+    <div class="support-panel-head">
+      <h2 id="supportPanelTitle">Phở Việt Support</h2>
+      <button id="supportClose" class="icon-button" type="button" aria-label="Close support chat">×</button>
+    </div>
+    <div id="supportLog" class="support-log" aria-live="polite">
+      <p>Hello! How can we help with your order?</p>
+    </div>
+    <div class="quick-options" aria-label="Quick support options">
+      <button type="button">My order is late</button>
+      <button type="button">Where is my driver?</button>
+      <button type="button">Missing item</button>
+      <button type="button">Wrong order</button>
+      <button type="button">Other problem</button>
+    </div>
+    <form id="supportForm" class="support-form">
+      <label for="supportMessage">Message</label>
+      <textarea id="supportMessage" rows="3" placeholder="Type your message..."></textarea>
+      <button class="primary-button" type="submit">Send</button>
+    </form>
+  </aside>
+
+  <footer class="site-footer"><span><svg class="footer-pho-mark pho-mark" viewBox="0 0 64 64" aria-hidden="true"><path d="M22 30c-5-6 1-10 2-16s-2-8 0-12M32 30c-4-6 2-11 2-17s-3-7 0-11M42 30c4-6-2-10-1-16s3-7 0-11"/><path d="M12 38c7-4 33-4 40 0M15 40c2 10 8 17 17 18h1c9-1 15-8 17-18M20 38c3-2 5 2 8 0s5-2 8 0 5-2 8 0M24 61h16"/></svg><strong>Phở Việt</strong> · Hanoi pho kitchen</span><span>A Hanoi Tradition, Served All Day.</span></footer>
 
   <script src="js/api.js"></script>
   <script src="js/tracking.js"></script>
