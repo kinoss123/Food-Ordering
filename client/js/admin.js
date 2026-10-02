@@ -381,4 +381,126 @@ async function deleteOrder(id) {
     alert(`Failed to delete order: ${err.message}`);
     console.error(err);
   }
+  // CUSTOMER SUPPORT CHAT - conversations are grouped by Order ID.
+const conversationListEl = document.getElementById("conversationList");
+const adminChatMessagesEl = document.getElementById("adminChatMessages");
+const adminChatHeadingEl = document.getElementById("adminChatHeading");
+const adminChatForm = document.getElementById("adminChatForm");
+const adminChatInput = document.getElementById("adminChatInput");
+const adminChatSend = document.getElementById("adminChatSend");
+const refreshConversationsButton = document.getElementById("refreshConversations");
+let selectedChatOrderId = null;
+let adminChatPollTimer = null;
+let adminChatLoading = false;
+
+refreshConversationsButton.addEventListener("click", loadConversations);
+adminChatForm.addEventListener("submit", sendAdminChatMessage);
+
+function startAdminChatPolling() {
+  if (adminChatPollTimer) clearInterval(adminChatPollTimer);
+  adminChatPollTimer = setInterval(() => {
+    if (!document.hidden) {
+      loadConversations();
+      if (selectedChatOrderId !== null) loadAdminChatMessages();
+    }
+  }, 3000);
+}
+
+async function loadConversations() {
+  try {
+    const conversations = await apiGet("/chat/conversations");
+    conversationListEl.replaceChildren();
+    if (!conversations.length) {
+      const empty = document.createElement("p");
+      empty.className = "chat-placeholder";
+      empty.textContent = "No customer messages yet.";
+      conversationListEl.append(empty);
+      return;
+    }
+    conversations.forEach((conversation) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = `conversation-item${selectedChatOrderId === conversation.orderId ? " selected" : ""}`;
+      const title = document.createElement("strong");
+      title.textContent = `Order #${conversation.orderId} · ${conversation.customerName}`;
+      const preview = document.createElement("span");
+      preview.textContent = conversation.latestMessage ? conversation.latestMessage.message : "No messages";
+      const meta = document.createElement("small");
+      meta.textContent = `${conversation.messageCount} message(s) · ${conversation.orderStatus}`;
+      button.append(title, preview, meta);
+      button.addEventListener("click", () => selectConversation(conversation.orderId, conversation.customerName));
+      conversationListEl.append(button);
+    });
+  } catch (error) {
+    console.error("Could not load conversations:", error);
+  }
+}
+
+async function selectConversation(orderId, customerName) {
+  selectedChatOrderId = Number(orderId);
+  adminChatHeadingEl.textContent = `Order #${orderId} · ${customerName}`;
+  adminChatInput.disabled = false;
+  adminChatSend.disabled = false;
+  await loadConversations();
+  await loadAdminChatMessages();
+  adminChatInput.focus();
+}
+
+async function loadAdminChatMessages() {
+  if (selectedChatOrderId === null || adminChatLoading) return;
+  adminChatLoading = true;
+  try {
+    const messages = await apiGet(`/chat/admin/orders/${selectedChatOrderId}/messages`);
+    adminChatMessagesEl.replaceChildren();
+    if (!messages.length) {
+      const empty = document.createElement("p");
+      empty.className = "chat-placeholder";
+      empty.textContent = "No messages in this conversation yet.";
+      adminChatMessagesEl.append(empty);
+      return;
+    }
+    messages.forEach((message) => {
+      const bubble = document.createElement("div");
+      bubble.className = `admin-chat-message ${message.sender === "admin" ? "from-admin" : "from-customer"}`;
+      const sender = document.createElement("strong");
+      sender.textContent = message.sender === "admin" ? "You (Admin)" : message.senderName || "Customer";
+      const body = document.createElement("p");
+      body.textContent = message.message;
+      const time = document.createElement("time");
+      time.textContent = new Date(message.createdAt).toLocaleString();
+      bubble.append(sender, body, time);
+      adminChatMessagesEl.append(bubble);
+    });
+    adminChatMessagesEl.scrollTop = adminChatMessagesEl.scrollHeight;
+  } catch (error) {
+    console.error("Could not load chat messages:", error);
+  } finally {
+    adminChatLoading = false;
+  }
+}
+
+async function sendAdminChatMessage(event) {
+  event.preventDefault();
+  const message = adminChatInput.value.trim();
+  if (!message || selectedChatOrderId === null) return;
+  adminChatSend.disabled = true;
+  try {
+    await apiPost(`/chat/admin/orders/${selectedChatOrderId}/messages`, { message });
+    adminChatInput.value = "";
+    await loadAdminChatMessages();
+    await loadConversations();
+  } catch (error) {
+    alert(`Could not send reply: ${error.message}`);
+  } finally {
+    adminChatSend.disabled = false;
+  }
+}
+
+// Start inbox refresh only after the admin has authenticated.
+const originalShowDashboard = showDashboard;
+showDashboard = function () {
+  originalShowDashboard();
+  loadConversations();
+  startAdminChatPolling();
+}
 }

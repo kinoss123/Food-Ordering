@@ -4,6 +4,7 @@ const path = require("path");
 
 const menuRoutes = require("./routes/menu");
 const orderRoutes = require("./routes/orders");
+const chatRoutes = require("./routes/chat");
 const { ADMIN_KEY } = require("./middleware/adminAuth");
 const { readData, writeData } = require("./utils/db");
 
@@ -26,7 +27,7 @@ app.post("/api/admin/login", (req, res) => {
 // Expose the API: /api/menu and /api/orders
 app.use("/api/menu", menuRoutes);
 app.use("/api/orders", orderRoutes);
-
+app.use("/api/chat", chatRoutes);
 // (Optional) Let Express also serve the static frontend files,
 // so both sides can be tested from the same origin without CORS issues
 app.use(express.static(path.join(__dirname, "..", "client")));

@@ -16,6 +16,7 @@ const supportForm = document.getElementById("supportForm");
 const supportMessage = document.getElementById("supportMessage");
 const supportLog = document.getElementById("supportLog");
 const supportCopy = document.getElementById("supportCopy");
+const supportOrderLabel = document.getElementById("supportOrderLabel");
 
 const POLL_INTERVAL = 20000;
 const MAX_POLL_ERRORS = 3;
@@ -71,6 +72,9 @@ let activeOrder = null;
 let pollingTimer = null;
 let pollingErrors = 0;
 let requestInFlight = false;
+let chatPollingTimer = null;
+let lastChatMessageId = 0;
+let chatRequestInFlight = false;
 
 trackForm.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -95,7 +99,7 @@ document.addEventListener("visibilitychange", () => {
   }
 });
 
-window.addEventListener("beforeunload", stopPolling);
+window.addEventListener("beforeunload", () => { stopPolling(); stopChatPolling(); });
 
 initFromUrl();
 
@@ -125,11 +129,14 @@ async function loadOrder(rawId, options = {}) {
   try {
     const order = await fetchOrder(id);
     const previousStatus = activeOrder ? normalizedStatus(activeOrder.status) : "";
+    const orderChanged = activeOrderId !== String(order.id);
+    if (orderChanged) { lastChatMessageId = 0; supportLog.replaceChildren(); }
     activeOrderId = String(order.id);
     activeOrder = order;
     pollingErrors = 0;
     renderOrder(order);
     updateUrl(order.id);
+    await loadChatMessages(orderChanged);
     if (!options.silent) {
       showMessage("Order found.", "success");
     } else if (previousStatus && previousStatus !== normalizedStatus(order.status)) {
@@ -414,8 +421,15 @@ function errorMessageFor(err) {
 }
 
 function openSupportChat() {
+  if (!activeOrderId) {
+    showError("Please track a valid order before contacting support.");
+    return;
+  }
   supportPanel.hidden = false;
   supportPanel.setAttribute("aria-hidden", "false");
+  supportOrderLabel.textContent = `Conversation for Order #${activeOrderId}`;
+  loadChatMessages(true);
+  startChatPolling();
   supportMessage.focus();
 }
 
@@ -425,18 +439,88 @@ function closeSupportChat() {
   supportOpen.focus();
 }
 
-function sendSupportMessage(event) {
+async function sendSupportMessage(event) {
   event.preventDefault();
   const message = supportMessage.value.trim();
-  if (!message) return;
+  if (!message || !activeOrderId) return;
+  const sendButton = supportForm.querySelector("button[type=submit]");
+  sendButton.disabled = true;
+  try {
+    const response = await fetch(`${API_BASE}/chat/orders/${encodeURIComponent(activeOrderId)}/messages`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message }),
+    });
+    if (!response.ok) throw new Error("Unable to send message");
+    const savedMessage = await response.json();
+    appendChatMessage(savedMessage);
+    lastChatMessageId = Math.max(lastChatMessageId, savedMessage.id);
+    supportMessage.value = "";
+  } catch (error) {
+    showError("Message could not be sent. Please try again.");
+    console.error(error);
+  } finally {
+    sendButton.disabled = false;
+  }
+}
 
-  const customer = document.createElement("p");
-  customer.textContent = `You: ${message}`;
-  const reply = document.createElement("p");
-  reply.textContent = `Phở Việt Support: Thank you. We will check order #${activeOrderId || "your order"} and assist you shortly.`;
-  supportLog.append(customer, reply);
-  supportMessage.value = "";
+async function loadChatMessages(reset = false) {
+  if (!activeOrderId || chatRequestInFlight) return;
+  chatRequestInFlight = true;
+  try {
+    const after = reset ? 0 : lastChatMessageId;
+    const response = await fetch(`${API_BASE}/chat/orders/${encodeURIComponent(activeOrderId)}/messages?after=${after}`);
+    if (!response.ok) throw new Error("Unable to load chat messages");
+    const messages = await response.json();
+    if (reset) {
+      supportLog.replaceChildren();
+      lastChatMessageId = 0;
+    }
+    messages.forEach((message) => {
+      appendChatMessage(message);
+      lastChatMessageId = Math.max(lastChatMessageId, message.id);
+    });
+    if (reset && messages.length === 0) {
+      const empty = document.createElement("p");
+      empty.className = "chat-empty";
+      empty.textContent = "No messages yet. Send us a message and our team will reply here.";
+      supportLog.append(empty);
+    }
+  } catch (error) {
+    console.error(error);
+  } finally {
+    chatRequestInFlight = false;
+  }
+}
+
+function appendChatMessage(message) {
+  const empty = supportLog.querySelector(".chat-empty");
+  if (empty) empty.remove();
+  if (supportLog.querySelector(`[data-message-id="${message.id}"]`)) return;
+  const bubble = document.createElement("div");
+  bubble.className = `chat-message ${message.sender === "customer" ? "from-customer" : "from-admin"}`;
+  bubble.dataset.messageId = message.id;
+  const sender = document.createElement("strong");
+  sender.textContent = message.sender === "customer" ? "You" : "Phở Việt Support";
+  const content = document.createElement("p");
+  content.textContent = message.message;
+  const time = document.createElement("time");
+  time.textContent = new Date(message.createdAt).toLocaleString();
+  bubble.append(sender, content, time);
+  supportLog.append(bubble);
   supportLog.scrollTop = supportLog.scrollHeight;
+}
+
+function startChatPolling() {
+  stopChatPolling();
+  chatPollingTimer = window.setInterval(() => {
+    if (!document.hidden && !supportPanel.hidden) loadChatMessages(false);
+  }, 3000);
+}
+
+function stopChatPolling() {
+  if (chatPollingTimer) window.clearInterval(chatPollingTimer);
+  chatPollingTimer = null;
 }
 
 function normalizeOrderId(value) {

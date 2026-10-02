@@ -123,6 +123,32 @@
           <tbody id="menuTableBody"></tbody>
         </table>
       </section>
+      <!-- CUSTOMER SUPPORT CHAT -->
+      <section class="card admin-chat-card" id="customerSupportSection">
+        <h2>Customer Support</h2>
+        <p>Choose an order conversation to read and reply to the customer.</p>
+        <div class="admin-chat-layout">
+          <div class="conversation-list-wrap">
+            <div class="chat-toolbar">
+              <strong>Conversations</strong>
+              <button type="button" id="refreshConversations">Refresh</button>
+            </div>
+            <div id="conversationList" class="conversation-list">
+              <p class="chat-placeholder">No conversations loaded.</p>
+            </div>
+          </div>
+          <div class="admin-chat-window">
+            <div class="admin-chat-heading" id="adminChatHeading">Select a conversation</div>
+            <div id="adminChatMessages" class="admin-chat-messages">
+              <p class="chat-placeholder">Messages will appear here.</p>
+            </div>
+            <form id="adminChatForm" class="admin-chat-form">
+              <input id="adminChatInput" type="text" maxlength="2000" placeholder="Write a reply..." disabled required>
+              <button id="adminChatSend" type="submit" disabled>Send</button>
+            </form>
+          </div>
+        </div>
+      </section>
 
       <!-- ORDERS -->
       <section class="card">
